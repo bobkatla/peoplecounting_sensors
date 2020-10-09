@@ -9,6 +9,7 @@
   "author": "Bob",
   "license": "ISC",
   "dependencies": {
-    "johnny-five": "^2.0.0"
+    "johnny-five": "^2.0.0",
+    "needle": "^2.5.2"
   }
 }
