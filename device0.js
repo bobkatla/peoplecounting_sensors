@@ -2,8 +2,8 @@
 const five = require("johnny-five");
 const needle = require('needle');
 
-// buiding id for this devide  is 1, it is hardcorded
-const id = 1;
+// buiding id for this devide  is 0, it is hardcorded
+const id = 0;
 
 const data = {id};
 
@@ -11,9 +11,9 @@ const board = new five.Board();
 
 board.on("ready", function() {
 	// sensor at enter door
-	const sensorEnter = new five.Sensor.Digital(8);
+	const sensorEnter = new five.Sensor.Digital(6);
 	// sensor at exit door
-	const sensorExit = new five.Sensor.Digital(9);
+	const sensorExit = new five.Sensor.Digital(7);
 	let valEnter = 1;
 	let valExit = 1;
 	// sensor at enter door run and connect to api
