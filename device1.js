@@ -1,5 +1,5 @@
-// set up
-const five = require("johnny-five");
+// this file is for random testing to demonstrate the api connection
+
 const needle = require('needle');
 
 // buiding id for this devide  is 1, it is hardcorded
@@ -7,42 +7,24 @@ const id = 1;
 
 const data = {id};
 
-const board = new five.Board();
-
-board.on("ready", function() {
-	// sensor at enter door
-	const sensorEnter = new five.Sensor.Digital(8);
-	// sensor at exit door
-	const sensorExit = new five.Sensor.Digital(9);
-	let valEnter = 1;
-	let valExit = 1;
-	// sensor at enter door run and connect to api
-	sensorEnter.on("change", function() {
-		let check = this.value - valEnter;
-		if (check === -1) {
-			needle('put', 'https://peoplecounting-server-api.herokuapp.com/countplus', data, {json: true})
-    			.then((res) => {
-        			console.log('message: ', res.body);
-    			}).catch((err) => {
-        			console.error(err);
-			});
-
-		}
-		valEnter = this.value;
-	});
-	// sensor at exit door run and connect to api
-	sensorExit.on("change", function() {
-                let check = this.value - valExit;
-                if (check === -1) {
-                        needle('put', 'https://peoplecounting-server-api.herokuapp.com/countminus', data, {json: true})
-                        .then((res) => {
-                                console.log('message: ', res.body);
-                        }).catch((err) => {
-                                console.error(err);
-                        });
-
-                }
-                valExit = this.value;
-        });
-
-});
+let val = 0;
+// check random number to decide that the building will increase or decrease
+const check = () => {
+	val = parseInt(Math.random()*100) %2;
+	if (val === 0) {
+		needle('put', 'https://peoplecounting-server-api.herokuapp.com/countplus', data, {json: true})
+		.then((res) => {
+			console.log('message: ', res.body);
+		}).catch((err) => {
+			console.error(err);
+		});
+	} else {
+		needle('put', 'https://peoplecounting-server-api.herokuapp.com/countminus', data, {json: true})
+		.then((res) => {
+			console.log('message: ', res.body);
+		}).catch((err) => {
+			console.error(err);
+		});
+	}
+};
+setInterval(check , 3000);
